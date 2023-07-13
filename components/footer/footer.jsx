@@ -2,7 +2,7 @@ import React from "react";
 import { Typography, Box, Grid, Divider } from "@mui/material";
 import { ContainerLG } from "../";
 
-function GNRSFooter() {
+function NSRFooter() {
   return <>
     <Box mt={4} />
     <Grid container direction="row" justifyContent="center" alignItems="flex-start">
@@ -17,15 +17,14 @@ function GNRSFooter() {
             <Box display="flex" alignItems="left">
               <img src="/world.png" height="80"></img>
               <Box>
-                <Typography variant="h3">GNRS</Typography>
+                <Typography variant="h3">NSR</Typography>
                 <Typography variant="h6">
-                  Geographic Name Resolution Service
+                  Native Species Resolver
                 </Typography>
               </Box>
             </Box>
             <Box mt={1}>
-              An online tool for the standardization of global political
-              division names.
+              Lorem ipsum about NSR
             </Box>
           </Box>
         </Box>
@@ -99,7 +98,7 @@ export function Footer() {
       <Box py={4}>
         <ContainerLG>
           <Divider />
-          <GNRSFooter />
+          <NSRFooter />
         </ContainerLG>
       </Box>
     </footer>

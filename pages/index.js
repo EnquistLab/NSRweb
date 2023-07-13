@@ -9,6 +9,8 @@ import {
 
 export default function Index() {
   return (
-    <TopBar />
+    <Layout>
+    </Layout>
+
   );
 }
