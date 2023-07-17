@@ -2,6 +2,7 @@ import axios from "axios";
 
 const apiEndPoint = process.env.apiEndPoint;
 
+
 export const requestResolveRecords = async (records) => {
   //
   const parseObject = {
