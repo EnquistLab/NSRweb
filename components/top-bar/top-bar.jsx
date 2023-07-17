@@ -1,5 +1,5 @@
 import { useState, useEffect, React } from "react";
-// import { requestMeta } from "../../actions";
+import { requestMeta } from "../../actions";
 
 import LowResBar from "./low-res-bar";
 
@@ -19,14 +19,14 @@ import { ContainerLG } from "../";
 
 export function TopBar() {
   // API version
-  // const [apiVersion, setApiVersion] = useState("");
-  // useEffect(() => {
-  //   let metaPromise = requestMeta();
-  //   metaPromise.then((meta) => {
-  //     let codeVersion = meta[0]["code_version"];
-  //     setApiVersion(codeVersion);
-  //   });
-  // }, []);
+  const [apiVersion, setApiVersion] = useState("");
+  useEffect(() => {
+    let metaPromise = requestMeta();
+    metaPromise.then((meta) => {
+      let codeVersion = meta[0].meta.code_version
+      setApiVersion(codeVersion);
+    });
+  }, []);
 
   const menuLinks = [
     { href: '/', name: 'Home' },
@@ -49,7 +49,7 @@ export function TopBar() {
 
           <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
             <Typography variant="caption" >
-              Native Species Resolver {}
+              Native Species Resolver {apiVersion}
             </Typography>
           </Box>
           <Box sx={{ flexGrow: 1 }}></Box>
@@ -66,7 +66,6 @@ export function TopBar() {
         </Toolbar>
       </ContainerLG>
     </AppBar >
-
   );
 }
 
