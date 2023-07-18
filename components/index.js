@@ -4,7 +4,7 @@ export * from './layout/layout'
 export * from './layout/container'
 export * from './search-box/search-box'
 
-// export * from './resolve-table/resolve-table'
-// export * from './table-pagination-actions/table-pagination-actions'
-// export * from './download-results/download-results'
+export * from './resolve-table/resolve-table'
+export * from './download-results/download-results'
+
 // export * from './match-threshold/match-threshold'

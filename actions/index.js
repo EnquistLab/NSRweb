@@ -1,4 +1,5 @@
 export * from './table-sort'
-export * from './round-score'
+export * from './resolve-record'
+export * from './format-response'
 export * from './api-requests/request-meta'
 export * from './api-requests/request-resolve-records'
