@@ -1,8 +1,7 @@
 import { useState } from 'react';
 
 import { Box, Paper, Typography } from '@mui/material';
-import { requestResolveRecords, resolveRecords } from "../actions/";
-
+import { resolveRecords } from "../actions/";
 
 import {
   Layout,
@@ -32,8 +31,6 @@ export default function Index() {
       setIsProcessing
     )
 
-    console.log(resolved)
-
     if (resolved) {
       setResolvedRecords(resolved)
     }
@@ -52,7 +49,6 @@ export default function Index() {
         </Box>
       )}
       <ResolveTable tableData={resolvedRecords} />
-
     </Layout>
   );
 }

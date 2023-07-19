@@ -10,7 +10,7 @@ import createEmotionCache from '../src/createEmotionCache';
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 
-export default function MyApp(props) {
+export default function NSRApp(props) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
 
   return (
@@ -27,7 +27,7 @@ export default function MyApp(props) {
   );
 }
 
-MyApp.propTypes = {
+NSRApp.propTypes = {
   Component: PropTypes.elementType.isRequired,
   emotionCache: PropTypes.object,
   pageProps: PropTypes.object.isRequired,

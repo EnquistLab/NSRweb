@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import {
   Box,
@@ -20,7 +20,6 @@ import { DownloadResults, } from "../";
 import { getComparator, stableSort } from "../../actions";
 
 export function ResolveTable({ tableData }) {
-
   // states
   const [dataPopUpOpen, setDataPopUpOpen] = useState(false);
   const [popUpDetails, setPopUpDetails] = useState({});

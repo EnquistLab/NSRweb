@@ -5,7 +5,7 @@ import createEmotionServer from '@emotion/server/create-instance';
 import theme, { roboto } from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
 
-export default function MyDocument(props) {
+export default function NSRDocument(props) {
   const { emotionStyleTags } = props;
 
   return (
@@ -27,7 +27,7 @@ export default function MyDocument(props) {
 
 // `getInitialProps` belongs to `_document` (instead of `_app`),
 // it's compatible with static-site generation (SSG).
-MyDocument.getInitialProps = async (ctx) => {
+NSRDocument.getInitialProps = async (ctx) => {
   // Resolution order
   //
   // On the server:
@@ -84,6 +84,6 @@ MyDocument.getInitialProps = async (ctx) => {
   };
 };
 
-MyDocument.propTypes = {
+NSRDocument.propTypes = {
   emotionStyleTags: PropTypes.array.isRequired,
 };
