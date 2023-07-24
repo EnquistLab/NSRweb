@@ -18,6 +18,11 @@ import {
 import { ContainerLG } from "../";
 
 export function TopBar() {
+  const menuLinks = [
+    { href: '/', name: 'Home' },
+    { href: '/map', name: 'Sources' },
+  ]
+
   // API version
   const [apiVersion, setApiVersion] = useState("");
   useEffect(() => {
@@ -27,10 +32,6 @@ export function TopBar() {
       setApiVersion(codeVersion);
     });
   }, []);
-
-  const menuLinks = [
-    { href: '/', name: 'Home' },
-  ]
 
   return (
     <AppBar position="static">
