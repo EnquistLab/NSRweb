@@ -1,24 +1,36 @@
-import { MapContainer, TileLayer, Marker, Popup, Polygon } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup, Polygon, GeoJSON } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import "leaflet-defaulticon-compatibility";
 import * as leaflet from "leaflet";
 
-
-import json from './brazil.json'
-
+import world from './countries.geo.json'
 
 
 const Map = () => {
+  const getColor = (id) => {
+    return id === 'USA' ? "#ff7800" :
+      id === 'BRA' ? "#800026" :
+        '#E3141C';
+  }
 
-  console.log(json.features[0].geometry.coordinates[0])
-  const tmp = json.features[0].geometry.coordinates[0]
+  const geojsonStyle = (feature) => {
+    console.log(feature)
+    return {
+      "dashArray": '3',
+      "color": getColor(feature.id),
+      "weight": 2,
+      "opacity": 0.65
+    }
+  }
 
-  const part = leaflet.GeoJSON.coordsToLatLngs(tmp)
+  const geojsonFeatures = (feature, layer) => {
+    layer.bindPopup('Country id: ' + feature.id);
+  }
 
   return (
     <MapContainer center={[40.8054, -74.0241]}
-      zoom={14}
+      zoom={3}
       scrollWheelZoom={false}
       style={{ minHeight: "calc(100vh - 64px)", width: "100%" }}
     >
@@ -26,13 +38,10 @@ const Map = () => {
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
-      <Polygon positions={part} />
 
-      <Marker position={[40.8054, -74.0241]}>
-        <Popup>
-          A pretty CSS3 popup. <br /> Easily customizable.
-        </Popup>
-      </Marker>
+      <GeoJSON data={world} onEachFeature={geojsonFeatures} style={geojsonStyle} />
+
+
 
     </MapContainer>
   )
