@@ -20,7 +20,8 @@ import { ContainerLG } from "../";
 export function TopBar() {
   const menuLinks = [
     { href: '/', name: 'Home' },
-    { href: '/map', name: 'Sources' },
+    { href: '/map', name: 'Map' },
+    { href: '/sources', name: 'Sources' },
   ]
 
   // API version

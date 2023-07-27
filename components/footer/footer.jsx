@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Box, Grid, Divider } from "@mui/material";
+import { Typography, Box, Grid, Chip, Divider } from "@mui/material";
 import { ContainerLG } from "../";
 
 function NSRFooter() {
@@ -97,7 +97,9 @@ export function Footer() {
     <footer>
       <Box py={4}>
         <ContainerLG>
-          <Divider />
+          <Divider textAlign="right">
+            <Chip label="bien" />
+          </Divider>
           <NSRFooter />
         </ContainerLG>
       </Box>

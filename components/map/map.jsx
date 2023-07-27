@@ -5,7 +5,7 @@ import "leaflet-defaulticon-compatibility";
 import * as leaflet from "leaflet";
 
 import world from './countries.geo.json'
-
+// with id from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
 const Map = () => {
   const getColor = (id) => {
@@ -30,19 +30,19 @@ const Map = () => {
 
   return (
     <MapContainer center={[40.8054, -74.0241]}
-      zoom={3}
+      zoom={4}
       scrollWheelZoom={false}
+      // 64px is the size of the top bar
       style={{ minHeight: "calc(100vh - 64px)", width: "100%" }}
+      worldCopyJump={true}
     >
       <TileLayer
+
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
       <GeoJSON data={world} onEachFeature={geojsonFeatures} style={geojsonStyle} />
-
-
-
     </MapContainer>
   )
 }
