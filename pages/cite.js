@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
+  TextField,
   DialogActions,
   Button
 } from '@mui/material';
@@ -38,11 +39,14 @@ function BibTexDialog({ displayText }) {
       <Dialog maxWidth={"md"} fullWidth open={open} onClose={handleClose}>
         <DialogTitle id="alert-dialog-title">{"BibTeX entry"}</DialogTitle>
         <DialogContent>
-          <span
-            dangerouslySetInnerHTML={{
-              __html: displayText,
-            }}
-          ></span>
+          <TextField
+            id="outlined-multiline-static"
+            multiline
+            rows={10}
+            disabled
+            fullWidth
+            defaultValue={displayText}
+          />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -50,7 +54,7 @@ function BibTexDialog({ displayText }) {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </div >
   );
 }
 BibTexDialog.propTypes = {
@@ -76,7 +80,7 @@ export default function Index() {
             lang: 'en-US'
           })
 
-          let raw = parsed.format('bibtex', { format: 'html' })
+          let raw = parsed.format('bibtex', { format: 'text' })
 
           return { 'source': c.name, 'parsed': parsed, 'raw': raw, 'formatted': formatted }
         } catch (error) {
