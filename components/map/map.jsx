@@ -31,7 +31,7 @@ const Map = () => {
   return (
     <MapContainer center={[40.8054, -74.0241]}
       zoom={4}
-      scrollWheelZoom={false}
+      scrollWheelZoom={true}
       // 64px is the size of the top bar
       style={{ minHeight: "calc(100vh - 64px)", width: "100%" }}
       worldCopyJump={true}

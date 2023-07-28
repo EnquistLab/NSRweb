@@ -17,8 +17,6 @@ import Cite from "citation-js";
 
 import {
   Layout,
-  SearchBox,
-  ResolveTable
 } from "../components/";
 
 function BibTexDialog({ displayText }) {
@@ -40,19 +38,11 @@ function BibTexDialog({ displayText }) {
       <Dialog maxWidth={"md"} fullWidth open={open} onClose={handleClose}>
         <DialogTitle id="alert-dialog-title">{"BibTeX entry"}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {displayText.split("\n").map((line, index) => {
-              if ((index > 0) & (line != "}")) {
-                line = "\xa0\xa0\xa0\xa0" + line;
-              }
-              return (
-                <span key={index}>
-                  {line}
-                  <br />
-                </span>
-              );
-            })}
-          </DialogContentText>
+          <span
+            dangerouslySetInnerHTML={{
+              __html: displayText,
+            }}
+          ></span>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
@@ -75,31 +65,33 @@ export default function Index() {
       let citationsResponse = await requestCitations();
       let metaResponse = await requestMeta();
 
-
       let parsedCitations = citationsResponse.flatMap(({ citations: c }) => {
         try {
           let cleanedCitation = c.source_citation.replace(/\\n/g, '')
           let parsed = new Cite(cleanedCitation)
+
           let formatted = parsed.format('bibliography', {
             format: 'html',
             template: 'apa',
             lang: 'en-US'
           })
-          return { 'source': c.name, 'parsed': parsed, 'raw': cleanedCitation, 'formatted': formatted }
+
+          let raw = parsed.format('bibtex', { format: 'html' })
+
+          return { 'source': c.name, 'parsed': parsed, 'raw': raw, 'formatted': formatted }
         } catch (error) {
-          console.log("Error parsing " + c.source_citation)
           console.log(error)
+          // returning empty vector will make flatMap drop it
           return [];
         }
       })
-      // console.log(parsedCitations)
       setCitationsState(parsedCitations);
+
       try {
         setMetaState(metaResponse[0].meta.code_version)
       } catch (error) {
         console.log("Error getting metadata from API")
       }
-
     }
     fetchCitations();
   }, []);
