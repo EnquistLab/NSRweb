@@ -22,6 +22,7 @@ export function TopBar() {
     { href: '/', name: 'Home' },
     { href: '/map', name: 'Map' },
     { href: '/sources', name: 'Sources' },
+    { href: '/cite', name: 'Cite' },
   ]
 
   // API version
