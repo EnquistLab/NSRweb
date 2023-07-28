@@ -103,7 +103,7 @@ export default function Index() {
   return (
     <Layout>
       <Typography variant="h3" gutterBottom>
-        How to Cite the GNRS
+        How to Cite the NSR
       </Typography>
       {/* {citationsList.map((v) => renderedCitations[v])} */}
 
