@@ -2,30 +2,45 @@ import { MapContainer, TileLayer, Marker, Popup, Polygon, GeoJSON } from 'react-
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import "leaflet-defaulticon-compatibility";
-import * as leaflet from "leaflet";
+// import * as leaflet from "leaflet";
 
 import world from './countries.geo.json'
 // with id from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
-const Map = () => {
+const Map = ({ checklists }) => {
   const getColor = (id) => {
-    return id === 'USA' ? "#ff7800" :
-      id === 'BRA' ? "#800026" :
-        '#E3141C';
+    if (id in checklists) {
+      let length = checklists[id].sources.split(',').length
+      return length == 1 ? "#D6D58E" :
+        length === 2 ? "#005C53" :
+          '#042940';
+    }
+  }
+
+  const geojsonFilter = (geojson) => {
+    if (geojson.id in checklists) {
+      return true
+    }
+    return false
   }
 
   const geojsonStyle = (feature) => {
-    console.log(feature)
     return {
-      "dashArray": '3',
+      "dashArray": '5',
       "color": getColor(feature.id),
       "weight": 2,
-      "opacity": 0.65
+      "opacity": 1
     }
   }
 
   const geojsonFeatures = (feature, layer) => {
-    layer.bindPopup('Country id: ' + feature.id);
+    if (checklists[feature.id] !== undefined) {
+      layer.bindPopup(
+        checklists[feature.id].country + '<br>'
+        + 'Checklists available:'
+        + checklists[feature.id].sources
+      );
+    }
   }
 
   return (
@@ -42,7 +57,7 @@ const Map = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
 
-      <GeoJSON data={world} onEachFeature={geojsonFeatures} style={geojsonStyle} />
+      <GeoJSON filter={geojsonFilter} data={world} onEachFeature={geojsonFeatures} style={geojsonStyle} />
     </MapContainer>
   )
 }

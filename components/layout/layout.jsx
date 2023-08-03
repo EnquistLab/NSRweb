@@ -17,9 +17,9 @@ export function Layout(props) {
         <Box flexGrow={1} my={2}>
           <ContainerLG>{props.children}</ContainerLG>
         </Box>
-        <Box>
-          <Footer />
-        </Box>
+        {/* <Box> */}
+        {/*   <Footer /> */}
+        {/* </Box> */}
       </Box>
     </>
   );
