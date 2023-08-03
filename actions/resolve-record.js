@@ -39,6 +39,7 @@ export const resolveRecords = async (records, showErrorMessage, setIsProcessing)
   }
 
   // format response to a javascript object
+  // once the API changes we comment this line out
   resolvedRecords = formatResponse(resolvedRecords)
   setIsProcessing(false)
 
