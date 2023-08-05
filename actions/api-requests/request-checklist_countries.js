@@ -3,10 +3,10 @@ import axios from "axios";
 
 const apiEndPoint = process.env.apiEndPoint;
 
-export const requestCitations = async () => {
+export const requestCountryChecklists = async () => {
   const parseObject = {
     opts: {
-      mode: "citations",
+      mode: "country_checklists",
     },
   };
 

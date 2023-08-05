@@ -2,10 +2,18 @@ import axios from "axios";
 
 const apiEndPoint = process.env.apiEndPoint;
 
-export const requestCitations = async () => {
+const formatChecklist = (checklist) => {
+  var returnObj = new Object();
+  checklist.forEach(({ checklist_countries: c }) => {
+    returnObj[c.source_name] = c
+  })
+  return returnObj
+}
+
+export const requestChecklistCountries = async () => {
   const parseObject = {
     opts: {
-      mode: "citations",
+      mode: "checklist_countries",
     },
   };
 
@@ -14,6 +22,7 @@ export const requestCitations = async () => {
       headers: { "Content-Type": "application/json" },
     })
     .then((response) => {
-      return response.data;
+      let formatted = formatChecklist(response.data)
+      return formatted;
     });
 };

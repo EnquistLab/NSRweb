@@ -10,16 +10,21 @@ import { requestCountryChecklists } from "../actions/";
 export default function Home() {
   let [checklists, setCheckLists] = useState([]);
 
+  const test = () => {
+    alert(test)
+  }
+
+
   useEffect(() => {
     async function fetchChecklists() {
       let checklists = await requestCountryChecklists()
+      // TODO: move this inside requestCountry
       var returnObj = new Object();
       checklists.forEach(({ country_checklists: c }) => {
         returnObj[c.gid_0] = c
         delete c.gid_0
       })
       setCheckLists(returnObj)
-      console.log(returnObj)
     }
     fetchChecklists()
   }, []);
