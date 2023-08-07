@@ -3,18 +3,11 @@ import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import "leaflet-defaulticon-compatibility";
 // import * as leaflet from "leaflet";
-import { renderToString, renderToStaticMarkup } from 'react-dom/server';
-
-import { Button } from '@mui/material';
 
 import world from './countries.geo.json'
 // with id from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
-const Map = ({ checklists }) => {
-  const test = () => {
-    alert('test')
-  }
-
+const Map = ({ checklists, onClickChecklist }) => {
   const getColor = (id) => {
     if (id in checklists) {
       let length = checklists[id].sources.split(',').length
@@ -40,20 +33,22 @@ const Map = ({ checklists }) => {
     }
   }
 
+  // links are added manually everytime a new popup opens
   const addLinks = () => {
     const links = document.getElementsByClassName("popup-button-link");
     if (links) {
       for (let link of links) {
-        link.addEventListener("click", (e) => console.log(e.target.innerText));
+        link.addEventListener("click", (e) => onClickChecklist(e.target.innerText));
       }
     }
   };
 
+  // links are also removed after the popup closes
   const removeLinks = () => {
     const links = document.getElementsByClassName("popup-button-link");
     if (links) {
       for (let link of links) {
-        link.removeEventListener("click", (e) => console.log(e.target.innerText));
+        link.removeEventListener("click", (e) => onClickChecklist(e.target.innerText));
       }
     }
   };
@@ -62,14 +57,14 @@ const Map = ({ checklists }) => {
     if (checklists[feature.id] !== undefined) {
       let links = checklists[feature.id].sources
         .split(',')
-        .map((s) => '<a class="popup-button-link">' + s + '</a>')
+        .map((s) => '<a href="#" class="popup-button-link">' + s + '</a>')
         .join(', ')
 
       layer
         .addEventListener('popupopen', addLinks)
         .addEventListener('popupclose', removeLinks)
         .bindPopup(
-          checklists[feature.id].country + '<br>'
+          '<strong>' + checklists[feature.id].country + '</strong><br>'
           + 'Checklists available: '
           + links
         );
@@ -78,9 +73,6 @@ const Map = ({ checklists }) => {
 
   return (
     <>
-      <Button variant="outlined" onClick={test}>
-        Open simple dialog
-      </Button>
       <MapContainer center={[40.8054, -74.0241]}
         zoom={4}
         scrollWheelZoom={true}
@@ -89,7 +81,6 @@ const Map = ({ checklists }) => {
         worldCopyJump={true}
       >
         <TileLayer
-
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />

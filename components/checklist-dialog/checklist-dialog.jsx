@@ -1,12 +1,7 @@
 import { useState, useEffect } from 'react';
-
-import { resolveRecords } from "../actions/";
-
 import PropTypes from 'prop-types';
 
 import {
-  Box,
-  Paper,
   Typography,
   Button,
   Dialog,
@@ -15,16 +10,9 @@ import {
   DialogActions,
 } from '@mui/material';
 
+import { requestChecklistCountries, } from "../../actions";
 
-import { requestChecklistCountries, } from "../actions/";
-
-import {
-  Layout,
-  SearchBox,
-  ResolveTable
-} from "../components/";
-
-function ChecklistsDialog({ onClose, open, checklistName }) {
+export function ChecklistsDialog({ onClose, open, checklistName }) {
   let [checklists, setCheckLists] = useState({});
 
   useEffect(() => {
@@ -33,9 +21,7 @@ function ChecklistsDialog({ onClose, open, checklistName }) {
       setCheckLists(cl[checklistName])
     }
     fetchChecklists();
-  }, []);
-
-
+  }, [checklistName]); // hit the API everytime checklistName changes
 
   const handleClose = () => {
     onClose();
@@ -45,7 +31,7 @@ function ChecklistsDialog({ onClose, open, checklistName }) {
     <Dialog onClose={handleClose} open={open}>
       <DialogTitle>Checklist name: {checklists?.source_name} </DialogTitle>
       <DialogContent dividers>
-        <Typography gutterBottom>
+        <Typography variant='h5' gutterBottom>
           {checklists?.checklist_details}
         </Typography>
         <Typography gutterBottom>
@@ -65,33 +51,3 @@ ChecklistsDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
 };
-
-
-export default function Index() {
-
-  const [open, setOpen] = useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <Layout>
-      <Typography variant="subtitle1" component="div">
-      </Typography>
-      <br />
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open simple dialog
-      </Button>
-      <ChecklistsDialog
-        open={open}
-        onClose={handleClose}
-        checklistName={'usda'}
-      />
-    </Layout>
-  );
-}

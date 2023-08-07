@@ -8,3 +8,4 @@ export * from './resolve-table/resolve-table'
 export * from './download-results/download-results'
 
 export * from './bibtex-dialog/bibtex-dialog'
+export * from './checklist-dialog/checklist-dialog'
