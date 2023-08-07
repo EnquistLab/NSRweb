@@ -13,7 +13,7 @@ import {
   ChecklistsDialog
 } from "../../components/";
 
-const Map = ({ checklists, onClickChecklist }) => {
+const Map = ({ checklists }) => {
   const [open, setOpen] = useState(false);
   const [checklistName, setChecklistName] = useState('')
 
@@ -91,10 +91,6 @@ const Map = ({ checklists, onClickChecklist }) => {
 
 
   let center = [40.8054, -74.0241]
-  const [map, setMap] = useState(null);
-  if (map) {
-    map.flyTo(map.getCenter());
-  }
 
   return (
     <>
@@ -108,7 +104,6 @@ const Map = ({ checklists, onClickChecklist }) => {
         key={1}
         center={center}
         zoom={4}
-        ref={setMap}
         scrollWheelZoom={true}
         // 64px is the size of the top bar
         style={{ minHeight: "calc(100vh - 64px)", width: "100%" }}
