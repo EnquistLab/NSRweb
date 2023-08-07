@@ -1,4 +1,6 @@
-import { MapContainer, TileLayer, Marker, Popup, Polygon, GeoJSON } from 'react-leaflet'
+import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet'
+import React, { useState } from "react";
+
 import 'leaflet/dist/leaflet.css'
 import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
 import "leaflet-defaulticon-compatibility";
@@ -7,7 +9,23 @@ import "leaflet-defaulticon-compatibility";
 import world from './countries.geo.json'
 // with id from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
+import {
+  ChecklistsDialog
+} from "../../components/";
+
 const Map = ({ checklists, onClickChecklist }) => {
+  const [open, setOpen] = useState(false);
+  const [checklistName, setChecklistName] = useState('')
+
+  const handleClickOpen = (checklist) => {
+    setChecklistName(checklist)
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const getColor = (id) => {
     if (id in checklists) {
       let length = checklists[id].sources.split(',').length
@@ -38,7 +56,7 @@ const Map = ({ checklists, onClickChecklist }) => {
     const links = document.getElementsByClassName("popup-button-link");
     if (links) {
       for (let link of links) {
-        link.addEventListener("click", (e) => onClickChecklist(e.target.innerText));
+        link.addEventListener("click", (e) => { handleClickOpen(e.target.innerText) });
       }
     }
   };
@@ -48,7 +66,7 @@ const Map = ({ checklists, onClickChecklist }) => {
     const links = document.getElementsByClassName("popup-button-link");
     if (links) {
       for (let link of links) {
-        link.removeEventListener("click", (e) => onClickChecklist(e.target.innerText));
+        link.removeEventListener("click", (e) => handleClickOpen(e.target.innerText));
       }
     }
   };
@@ -71,10 +89,26 @@ const Map = ({ checklists, onClickChecklist }) => {
     }
   }
 
+
+  let center = [40.8054, -74.0241]
+  const [map, setMap] = useState(null);
+  if (map) {
+    map.flyTo(map.getCenter());
+  }
+
   return (
     <>
-      <MapContainer center={[40.8054, -74.0241]}
+      <ChecklistsDialog
+        open={open}
+        onClose={handleClose}
+        checklistName={checklistName}
+      />
+
+      <MapContainer
+        key={1}
+        center={center}
         zoom={4}
+        ref={setMap}
         scrollWheelZoom={true}
         // 64px is the size of the top bar
         style={{ minHeight: "calc(100vh - 64px)", width: "100%" }}

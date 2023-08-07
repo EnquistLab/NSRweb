@@ -6,24 +6,13 @@ import {
   ChecklistsDialog
 } from "../components/";
 
+
 import {
   requestCountryChecklists,
 } from "../actions/";
 
 export default function Home() {
   let [checklists, setCheckLists] = useState([]);
-
-  const [open, setOpen] = useState(false);
-  const [checklistName, setChecklistName] = useState('')
-
-  const handleClickOpen = (checklist) => {
-    setChecklistName(checklist)
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   useEffect(() => {
     async function fetchChecklists() {
@@ -43,16 +32,12 @@ export default function Home() {
     ssr: false
   });
 
+
   return (
     <>
-      <ChecklistsDialog
-        open={open}
-        onClose={handleClose}
-        checklistName={checklistName}
-      />
 
       <TopBar />
-      <MapWithNoSSR checklists={checklists} onClickChecklist={handleClickOpen} />
+      <MapWithNoSSR checklists={checklists} />
     </>
   );
 }
