@@ -5,7 +5,7 @@
 This project is written in JavaScript and uses the [Node.js](https://nodejs.org/en/) intepreter.
 The first step to contribute is to install node in your machine.
 
-You can find help to install node [here](https://nodejs.dev/learn/how-to-install-nodejs).
+You can find help to install node [here](https://nodejs.dev/en/learn/how-to-install-nodejs/).
 
 If you are on MacOSX, cosider downloading
 and installing npm from https://nodejs.org/en/ (mac homebrew package manager doesn't have npm).
