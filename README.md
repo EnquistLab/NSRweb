@@ -76,15 +76,15 @@ For example, adding `new-file.js` to `pages` will make a new route `http://proje
 There is one component called `layout` that renders the header and footer, and takes children components
 that will be rendered between the header and footer.
 
-### Development
+#### Development
 
 The `next.config.js` controls which version of the API is being used.
 There are three instances of the API: development-public, development-private, and production.
 
-In order to start the development instance, run:
+To start the development instance, run:
 
 ```sh
 npm run dev
 ```
 
-You can find more options inside the package.json file under `scripts`.
+You can edit the port and find more options inside the package.json file under `scripts`.
