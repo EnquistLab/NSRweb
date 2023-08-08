@@ -18,6 +18,7 @@ export function ChecklistsDialog({ onClose, open, checklistName }) {
   useEffect(() => {
     async function fetchChecklists() {
       let cl = await requestChecklistCountries()
+      console.log(cl)
       setCheckLists(cl[checklistName])
     }
     fetchChecklists();
@@ -36,6 +37,9 @@ export function ChecklistsDialog({ onClose, open, checklistName }) {
         </Typography>
         <Typography gutterBottom>
           Coutries: {checklists?.countries?.split(',').join(', ')}
+        </Typography>
+        <Typography gutterBottom>
+          Date accessed: {checklists?.date_accessed}
         </Typography>
       </DialogContent>
       <DialogActions>
