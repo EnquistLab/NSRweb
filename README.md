@@ -65,7 +65,7 @@ Then add the export inside the `index.js` file in the root of `components`.
 The export would look like:
 
 ```javascript
-export * from "./checklist-dialog/checklist-dialog";
+export * from "./custom-button/custom-button";
 ```
 
 #### Adding new routes (`pages`)
