@@ -3,7 +3,6 @@ import { Typography } from '@mui/material';
 
 
 import { requestCitations, requestMeta } from "../actions/";
-import Cite from "citation-js";
 
 import {
   Layout,
@@ -15,29 +14,9 @@ export default function Index() {
   let [metaState, setMetaState] = useState("");
   useEffect(() => {
     async function fetchCitations() {
-      let citationsResponse = await requestCitations();
+      let parsedCitations = await requestCitations();
       let metaResponse = await requestMeta();
 
-      let parsedCitations = citationsResponse.flatMap(({ citations: c }) => {
-        try {
-          let cleanedCitation = c.source_citation.replace(/\\n/g, '')
-          let parsed = new Cite(cleanedCitation)
-
-          let formatted = parsed.format('bibliography', {
-            format: 'html',
-            template: 'apa',
-            lang: 'en-US'
-          })
-
-          let raw = parsed.format('bibtex', { format: 'text' })
-
-          return { 'source': c.name, 'parsed': parsed, 'raw': raw, 'formatted': formatted }
-        } catch (error) {
-          console.log(error)
-          // returning empty vector will make flatMap drop it
-          return [];
-        }
-      })
       setCitationsState(parsedCitations);
 
       try {

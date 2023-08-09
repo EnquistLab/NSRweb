@@ -9,13 +9,15 @@ import {
 
 import {
   requestCountryChecklists,
+  requestCitations
 } from "../actions/";
 
 export default function Home() {
   let [checklists, setCheckLists] = useState([]);
+  let [citations, setCitations] = useState([])
 
   useEffect(() => {
-    async function fetchChecklists() {
+    async function fetchMapInfo() {
       let checklists = await requestCountryChecklists()
       // TODO: move this inside requestCountry
       var returnObj = new Object();
@@ -24,8 +26,15 @@ export default function Home() {
         delete c.gid_0
       })
       setCheckLists(returnObj)
+
+      // getting citations
+      let parsedCitations = await requestCitations();
+      setCitations(parsedCitations)
+
+      // request groupedChecklists
+
     }
-    fetchChecklists()
+    fetchMapInfo()
   }, []);
 
   const MapWithNoSSR = dynamic(() => import("../components/map/map"), {
@@ -36,7 +45,7 @@ export default function Home() {
   return (
     <>
       <TopBar />
-      <MapWithNoSSR checklists={checklists} />
+      <MapWithNoSSR checklists={checklists} citations={citations} />
     </>
   );
 }

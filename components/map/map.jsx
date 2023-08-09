@@ -10,10 +10,12 @@ import world from './countries.geo.json'
 // with id from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
 
 import {
-  ChecklistsDialog
+  ChecklistsDialog,
+
+  BibTexDialog
 } from "../../components/";
 
-const Map = ({ checklists }) => {
+const Map = ({ checklists, citations }) => {
   const [open, setOpen] = useState(false);
   const [checklistName, setChecklistName] = useState('')
 
@@ -98,6 +100,7 @@ const Map = ({ checklists }) => {
         open={open}
         onClose={handleClose}
         checklistName={checklistName}
+        citations={citations}
       />
 
       <MapContainer

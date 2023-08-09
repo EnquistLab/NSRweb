@@ -12,16 +12,26 @@ import {
 
 import { requestChecklistCountries, } from "../../actions";
 
-export function ChecklistsDialog({ onClose, open, checklistName }) {
+import {
+  BibTexDialog
+} from "../";
+
+export function ChecklistsDialog({ onClose, open, checklistName, citations }) {
   let [checklists, setCheckLists] = useState({});
+  let [citation, setCitation] = useState(null)
 
   useEffect(() => {
     async function fetchChecklists() {
       let cl = await requestChecklistCountries()
-      console.log(cl)
       setCheckLists(cl[checklistName])
     }
     fetchChecklists();
+
+    const citation = citations.find(e => e.source === checklistName);
+    setCitation(citation)
+
+    console.log(citations)
+
   }, [checklistName]); // hit the API everytime checklistName changes
 
   const handleClose = () => {
@@ -41,6 +51,20 @@ export function ChecklistsDialog({ onClose, open, checklistName }) {
         <Typography gutterBottom>
           Date accessed: {checklists?.date_accessed}
         </Typography>
+        {citation &&
+          <div >
+            <Typography variant='h6'>
+              Citation
+            </Typography>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: citation.formatted,
+              }}
+            ></div>
+            <BibTexDialog displayText={citation.raw} />
+            <br />
+          </div>
+        }
       </DialogContent>
       <DialogActions>
         <Button autoFocus onClick={handleClose}>
