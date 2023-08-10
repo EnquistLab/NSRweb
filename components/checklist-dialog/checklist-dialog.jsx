@@ -21,7 +21,7 @@ export function ChecklistsDialog({ onClose, open, checklistName, citations, chec
   let [citation, setCitation] = useState(null)
 
   useEffect(() => {
-    // get the
+    // get the information for the current checklist
     setChecklistInfo(checklistsInfo[checklistName])
 
     // get the citation that corresponts to checklistName
