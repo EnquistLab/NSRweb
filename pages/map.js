@@ -3,36 +3,33 @@ import dynamic from "next/dynamic";
 
 import {
   TopBar,
-  ChecklistsDialog
 } from "../components/";
 
-
 import {
-  requestCountryChecklists,
+  requestChecklistsByCountry,
+  requestChecklistsInfo,
   requestCitations
 } from "../actions/";
 
 export default function Home() {
-  let [checklists, setCheckLists] = useState([]);
+  let [checklistsByCountry, setChecklistsByCountry] = useState([]);
+  let [checklistsInfo, setChecklistsInfo] = useState([]);
   let [citations, setCitations] = useState([])
 
   useEffect(() => {
     async function fetchMapInfo() {
-      let checklists = await requestCountryChecklists()
-      // TODO: move this inside requestCountry
-      var returnObj = new Object();
-      checklists.forEach(({ country_checklists: c }) => {
-        returnObj[c.gid_0] = c
-        delete c.gid_0
-      })
-      setCheckLists(returnObj)
+      // checklists per country
+      let clByCountry = await requestChecklistsByCountry()
+      setChecklistsByCountry(clByCountry)
+
+      // checklists info
+      // this is displayed on each popup
+      let clInfo = await requestChecklistsInfo()
+      setChecklistsInfo(clInfo)
 
       // getting citations
       let parsedCitations = await requestCitations();
       setCitations(parsedCitations)
-
-      // request groupedChecklists
-
     }
     fetchMapInfo()
   }, []);
@@ -41,11 +38,10 @@ export default function Home() {
     ssr: false
   });
 
-
   return (
     <>
       <TopBar />
-      <MapWithNoSSR checklists={checklists} citations={citations} />
+      <MapWithNoSSR citations={citations} checklistsByCountry={checklistsByCountry} checklistsInfo={checklistsInfo} />
     </>
   );
 }

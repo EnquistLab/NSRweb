@@ -11,11 +11,9 @@ import world from './countries.geo.json'
 
 import {
   ChecklistsDialog,
-
-  BibTexDialog
 } from "../../components/";
 
-const Map = ({ checklists, citations }) => {
+const Map = ({ checklistsByCountry, checklistsInfo, citations }) => {
   const [open, setOpen] = useState(false);
   const [checklistName, setChecklistName] = useState('')
 
@@ -29,8 +27,8 @@ const Map = ({ checklists, citations }) => {
   };
 
   const getColor = (id) => {
-    if (id in checklists) {
-      let length = checklists[id].sources.split(',').length
+    if (id in checklistsByCountry) {
+      let length = checklistsByCountry[id].sources.split(',').length
       return length == 1 ? "#D6D58E" :
         length === 2 ? "#005C53" :
           '#042940';
@@ -38,7 +36,7 @@ const Map = ({ checklists, citations }) => {
   }
 
   const geojsonFilter = (geojson) => {
-    if (geojson.id in checklists) {
+    if (geojson.id in checklistsByCountry) {
       return true
     }
     return false
@@ -74,8 +72,8 @@ const Map = ({ checklists, citations }) => {
   };
 
   const geojsonFeatures = (feature, layer) => {
-    if (checklists[feature.id] !== undefined) {
-      let links = checklists[feature.id].sources
+    if (checklistsByCountry[feature.id] !== undefined) {
+      let links = checklistsByCountry[feature.id].sources
         .split(',')
         .map((s) => '<a href="#" class="popup-button-link">' + s + '</a>')
         .join(', ')
@@ -84,7 +82,7 @@ const Map = ({ checklists, citations }) => {
         .addEventListener('popupopen', addLinks)
         .addEventListener('popupclose', removeLinks)
         .bindPopup(
-          '<strong>' + checklists[feature.id].country + '</strong><br>'
+          '<strong>' + checklistsByCountry[feature.id].country + '</strong><br>'
           + 'Checklists available: '
           + links
         );
@@ -100,6 +98,7 @@ const Map = ({ checklists, citations }) => {
         open={open}
         onClose={handleClose}
         checklistName={checklistName}
+        checklistsInfo={checklistsInfo}
         citations={citations}
       />
 

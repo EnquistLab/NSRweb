@@ -16,21 +16,17 @@ import {
   BibTexDialog
 } from "../";
 
-export function ChecklistsDialog({ onClose, open, checklistName, citations }) {
-  let [checklists, setCheckLists] = useState({});
+export function ChecklistsDialog({ onClose, open, checklistName, citations, checklistsInfo }) {
+  let [checklistInfo, setChecklistInfo] = useState({});
   let [citation, setCitation] = useState(null)
 
   useEffect(() => {
-    async function fetchChecklists() {
-      let cl = await requestChecklistCountries()
-      setCheckLists(cl[checklistName])
-    }
-    fetchChecklists();
+    // get the
+    setChecklistInfo(checklistsInfo[checklistName])
 
+    // get the citation that corresponts to checklistName
     const citation = citations.find(e => e.source === checklistName);
     setCitation(citation)
-
-    console.log(citations)
 
   }, [checklistName]); // hit the API everytime checklistName changes
 
@@ -40,16 +36,16 @@ export function ChecklistsDialog({ onClose, open, checklistName, citations }) {
 
   return (
     <Dialog onClose={handleClose} open={open}>
-      <DialogTitle>Checklist name: {checklists?.source_name} </DialogTitle>
+      <DialogTitle>Checklist name: {checklistInfo?.source_name} </DialogTitle>
       <DialogContent dividers>
         <Typography variant='h5' gutterBottom>
-          {checklists?.checklist_details}
+          {checklistInfo?.checklist_details}
         </Typography>
         <Typography gutterBottom>
-          Coutries: {checklists?.countries?.split(',').join(', ')}
+          Coutries: {checklistInfo?.countries?.split(',').join(', ')}
         </Typography>
         <Typography gutterBottom>
-          Date accessed: {checklists?.date_accessed}
+          Date accessed: {checklistInfo?.date_accessed}
         </Typography>
         {citation &&
           <div >

@@ -25,9 +25,6 @@ const parseCitations = (citationsResponse) => citationsResponse.flatMap(({ citat
   }
 })
 
-
-
-
 export const requestCitations = async () => {
   const parseObject = {
     opts: {

@@ -10,7 +10,7 @@ const formatChecklist = (checklist) => {
   return returnObj
 }
 
-export const requestChecklistCountries = async () => {
+export const requestChecklistsInfo = async () => {
   const parseObject = {
     opts: {
       mode: "checklist_countries",
