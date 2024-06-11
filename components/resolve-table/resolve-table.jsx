@@ -54,16 +54,16 @@ export function ResolveTable({ tableData }) {
   const renderRow = (row, id) => {
     return (
       <TableRow key={id}>
+        <TableCell>{row.species}</TableCell>
         <TableCell>
           {[
             row.country,
             row.state_province,
             row.county_parish,
           ]
-            .filter((row) => row)
-            .join(":")}
+              .filter((row) => row)
+              .join(":")}
         </TableCell>
-        <TableCell>{row.genus}</TableCell>
         <TableCell>{row.native_status}</TableCell>
         <TableCell>{row.native_status_reason}</TableCell>
         <TableCell>{row.native_status_sources}</TableCell>
