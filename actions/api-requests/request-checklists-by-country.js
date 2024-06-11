@@ -4,9 +4,6 @@ import axios from "axios";
 const apiEndPoint = process.env.apiEndPoint;
 
 const formatChecklists = (checklists) => {
-
-  console.log(checklists)
-  // TODO: move this inside requestCountry
   var returnObj = new Object();
   checklists.forEach(({ country_checklists: c }) => {
     returnObj[c.gid_0] = c
@@ -27,9 +24,7 @@ export const requestChecklistsByCountry = async () => {
       headers: { "Content-Type": "application/json" },
     })
     .then((response) => {
-
       let formatted = formatChecklists(response.data)
-
       return formatted;
     });
 };

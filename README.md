@@ -1,5 +1,7 @@
 # NSRweb
 
+NSRweb is a web interface for the [Native Species Resolver](https://github.com/ojalaquellueva/nsr) (NSR). The NSR determines if a species is native or introduced to the location where it was observed by looking up the species in country, state and county checklists. 
+
 ## How to contribute
 
 This project is written in JavaScript and uses the [Node.js](https://nodejs.org/en/) intepreter.
