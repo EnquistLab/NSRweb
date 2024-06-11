@@ -80,28 +80,30 @@ export function DownloadResults({ data }) {
 }
 
 const generateDownloadFile = (data, fileName, fileFormat) => {
-  // add the entire list of columns
-  const fields = Object.keys(data[0]);
-  // create a new var to hold the results to download
-  // if we want all matches, simple reference the new var
+  // Rename "user_id" to "ID" and reorder it to be the first column
+  const modifiedData = data.map(row => {
+    const { user_id, ...rest } = row;
+    return { ID: user_id, ...rest };
+  });
+
+  // Define the fields for the CSV/TSV output, ensuring "ID" is the first field
+  const fields = ['ID', ...Object.keys(data[0]).filter(field => field !== "user_id" && field !== "isCultivatedNSR")];
+
   let opts;
-  if (fileFormat == "tsv") {
+  if (fileFormat === "tsv") {
     opts = { fields, delimiter: "\t" };
   } else {
     opts = { fields };
   }
+
   const parser = new Parser(opts);
-  // convert data to CSV
+
+  // Convert modified data to CSV or TSV
   try {
-    // convert data (json) to csv
-    const csv = parser.parse(data, opts);
-    // create the download file
-    const csvBlob = new Blob([csv], { type: "text/plain;charset=utf-8" });
-    saveAs(csvBlob, fileName + "." + fileFormat);
-    //
+    const fileData = parser.parse(modifiedData);
+    const fileBlob = new Blob([fileData], { type: "text/plain;charset=utf-8" });
+    saveAs(fileBlob, fileName + "." + fileFormat);
   } catch (error) {
-    // TODO: think about what to do in case of errors
-    // for now, logging the error to the console
-    console.error(error);
+    console.error("Error generating the file:", error);
   }
 };

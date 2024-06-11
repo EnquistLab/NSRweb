@@ -15,16 +15,16 @@ function NSRFooter() {
             alignItems="flex-start"
           >
             <Box display="flex" alignItems="left">
-              <img src="/world.png" height="80"></img>
+              <img src="/nsr_logo.png" height="145"></img>
               <Box>
-                <Typography variant="h3">NSR</Typography>
+                <Typography variant="h1">NSR</Typography>
                 <Typography variant="h6">
                   Native Species Resolver
                 </Typography>
               </Box>
             </Box>
             <Box mt={1}>
-              Lorem ipsum about NSR
+              An online tool for the detection of introduced species occurrences.
             </Box>
           </Box>
         </Box>
@@ -98,7 +98,7 @@ export function Footer() {
       <Box py={4}>
         <ContainerLG>
           <Divider textAlign="right">
-            <Chip label="bien" />
+            {/*<Chip label="bien" />*/}
           </Divider>
           <NSRFooter />
         </ContainerLG>
