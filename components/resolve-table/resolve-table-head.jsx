@@ -14,11 +14,11 @@ export default function EnhancedTableHead(props) {
 
   // to save space we define a vector with the names of the columns
   let tableColumns = [
+    ["species", "Species"],
     ["country", "Political Division Submitted"],
-    ["genus", "Genus"],
     ["native_status", "Native Status"],
     ["native_status_reason", "Native Status Reason"],
-    ["native_status_sources", "Native Status Sources"],
+    ["native_status_sources", "Sources"],
   ];
 
   // we render the names using a map
