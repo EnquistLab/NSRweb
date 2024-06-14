@@ -1,24 +1,17 @@
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet'
-import React, { useState } from "react";
-
-import 'leaflet/dist/leaflet.css'
-import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css'
+import { MapContainer, TileLayer, GeoJSON, useMap } from 'react-leaflet';
+import React, { useState, useEffect } from "react";
+import 'leaflet/dist/leaflet.css';
+import 'leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css';
 import "leaflet-defaulticon-compatibility";
-// import * as leaflet from "leaflet";
-
-import world from './countries.geo.json'
-// with id from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-3
-
-import {
-  ChecklistsDialog,
-} from "../../components/";
+import world from './countries.geo.json';
+import { ChecklistsDialog } from "../../components/";
 
 const Map = ({ checklistsByCountry, checklistsInfo, citations }) => {
   const [open, setOpen] = useState(false);
-  const [checklistName, setChecklistName] = useState('')
+  const [checklistName, setChecklistName] = useState('');
 
   const handleClickOpen = (checklist) => {
-    setChecklistName(checklist)
+    setChecklistName(checklist);
     setOpen(true);
   };
 
@@ -28,19 +21,16 @@ const Map = ({ checklistsByCountry, checklistsInfo, citations }) => {
 
   const getColor = (id) => {
     if (id in checklistsByCountry) {
-      let length = checklistsByCountry[id].sources.split(',').length
-      return length == 1 ? "#D6D58E" :
-        length === 2 ? "#005C53" :
-          '#042940';
+      let length = checklistsByCountry[id].sources.split(',').length;
+      return length === 1 ? "#D6D58E" :
+          length === 2 ? "#005C53" :
+              '#042940';
     }
-  }
+  };
 
   const geojsonFilter = (geojson) => {
-    if (geojson.id in checklistsByCountry) {
-      return true
-    }
-    return false
-  }
+    return geojson.id in checklistsByCountry;
+  };
 
   const geojsonStyle = (feature) => {
     return {
@@ -48,10 +38,9 @@ const Map = ({ checklistsByCountry, checklistsInfo, citations }) => {
       "color": getColor(feature.id),
       "weight": 2,
       "opacity": 1
-    }
-  }
+    };
+  };
 
-  // links are added manually everytime a new popup opens
   const addLinks = () => {
     const links = document.getElementsByClassName("popup-button-link");
     if (links) {
@@ -61,7 +50,6 @@ const Map = ({ checklistsByCountry, checklistsInfo, citations }) => {
     }
   };
 
-  // links are also removed after the popup closes
   const removeLinks = () => {
     const links = document.getElementsByClassName("popup-button-link");
     if (links) {
@@ -74,52 +62,84 @@ const Map = ({ checklistsByCountry, checklistsInfo, citations }) => {
   const geojsonFeatures = (feature, layer) => {
     if (checklistsByCountry[feature.id] !== undefined) {
       let links = checklistsByCountry[feature.id].sources
-        .split(',')
-        .map((s) => '<a href="#" class="popup-button-link">' + s + '</a>')
-        .join(', ')
+          .split(',')
+          .map((s) => '<a href="#" class="popup-button-link">' + s + '</a>')
+          .join(', ');
 
       layer
-        .addEventListener('popupopen', addLinks)
-        .addEventListener('popupclose', removeLinks)
-        .bindPopup(
-          '<strong>' + checklistsByCountry[feature.id].country + '</strong><br>'
-          + 'Checklists available: '
-          + links
-        );
+          .addEventListener('popupopen', addLinks)
+          .addEventListener('popupclose', removeLinks)
+          .bindPopup(
+              '<strong>' + checklistsByCountry[feature.id].country + '</strong><br>'
+              + 'Checklists available: '
+              + links
+          );
     }
-  }
+  };
 
+  const DefaultZoomControl = () => {
+    const map = useMap();
 
-  let center = [40.8054, -74.0241]
+    const handleDefaultZoom = () => {
+      map.setView([0, 0], 2);
+    };
+
+    useEffect(() => {
+      // Add a custom control button for returning to default zoom
+      const defaultZoomButton = L.control({ position: 'topleft' });
+      defaultZoomButton.onAdd = function (map) {
+        const button = L.DomUtil.create('button', 'default-zoom-button leaflet-bar leaflet-control leaflet-control-custom');
+        button.innerHTML = '<b>⌂</b>';
+        button.title = "Default Zoom";
+        button.style.backgroundColor = 'white';
+        button.style.left = '2px';
+        button.style.width = '32px';
+        button.style.height = '32px';
+        button.style.display = 'flex';
+        button.style.alignItems = 'center';
+        button.style.justifyContent = 'center';
+        button.onclick = handleDefaultZoom;
+        return button;
+      };
+      defaultZoomButton.addTo(map);
+
+      return () => {
+        defaultZoomButton.remove();
+      };
+    }, [map]);
+
+    return null;
+  };
 
   return (
-    <>
-      <ChecklistsDialog
-        open={open}
-        onClose={handleClose}
-        checklistName={checklistName}
-        checklistsInfo={checklistsInfo}
-        citations={citations}
-      />
-
-      <MapContainer
-        key={1}
-        center={center}
-        zoom={4}
-        scrollWheelZoom={true}
-        // 64px is the size of the top bar
-        style={{ minHeight: "calc(100vh - 64px)", width: "100%" }}
-        worldCopyJump={true}
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      <>
+        <ChecklistsDialog
+            open={open}
+            onClose={handleClose}
+            checklistName={checklistName}
+            checklistsInfo={checklistsInfo}
+            citations={citations}
         />
 
-        <GeoJSON filter={geojsonFilter} data={world} onEachFeature={geojsonFeatures} style={geojsonStyle} />
-      </MapContainer>
-    </>
-  )
-}
+        <MapContainer
+            center={[0, 0]}
+            zoom={2}
+            scrollWheelZoom={true}
+            style={{ minHeight: "calc(100vh - 64px)", width: "100%" }}
+            maxBounds={[[-85, -180], [85, 180]]} // Adjusted bounds to restrict excess map
+            maxBoundsViscosity={1.0}
+            minZoom={2}
+        >
+          <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
 
-export default Map
+          <GeoJSON filter={geojsonFilter} data={world} onEachFeature={geojsonFeatures} style={geojsonStyle} />
+          <DefaultZoomControl />
+        </MapContainer>
+      </>
+  );
+};
+
+export default Map;
